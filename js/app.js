@@ -21,6 +21,9 @@ var listOfCards = [
 ];
 
 var cardsShuffle = shuffle(listOfCards);
+var previousCar = null;
+var currentCar = null;
+var chance = 0;
 
 var deck = document.createElement('ul');
 deck.classList.add('deck');
@@ -38,6 +41,30 @@ for(var i =0; i < listOfCards.length; i++){
 var container = document.querySelector('.container');
 
 container.append(deck);
+
+deck.addEventListener('click', function(event) {
+    currentCar = event.target.querySelector('.fa');
+    currentCar2 = event.target;
+    chance++;
+    event.target.classList.toggle('open');
+    event.target.classList.toggle('show');
+    if(chance == 2) {
+        if(currentCar.className !== previousCar.className) {
+            setTimeout(function() {
+                currentCar2.classList.remove('open');
+                currentCar2.classList.remove('show');
+
+                previousCar2.classList.remove('open');
+                previousCar2.classList.remove('show');
+            }, 2000);
+        } 
+        chance = 0; 
+    } 
+    previousCar = event.target.querySelector('.fa');
+    previousCar2 = event.target;
+    console.log(previousCar);
+});
+
 
 /*
  * Display the cards on the page
