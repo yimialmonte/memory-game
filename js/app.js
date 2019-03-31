@@ -3,20 +3,20 @@
  */
 var listOfCards = [
     'fa-diamond',
+    'fa-diamond',
     'fa-paper-plane-o',
+    'fa-paper-plane-o',
+    'fa-anchor',
     'fa-anchor',
     'fa-bolt',
     'fa-cube',
-    'fa-anchor',
     'fa-leaf',
     'fa-bicycle',
-    'fa-diamond',
     'fa-bomb',
     'fa-leaf',
     'fa-bomb',
     'fa-bolt',
     'fa-bicycle',
-    'fa-paper-plane-o',
     'fa-cube'
 ];
 
@@ -24,6 +24,8 @@ var cardsShuffle = shuffle(listOfCards);
 var previousCar = null;
 var currentCar = null;
 var chance = 0;
+const pointToWin = 8;
+let point = 0;
 
 var deck = document.createElement('ul');
 deck.classList.add('deck');
@@ -43,26 +45,33 @@ var container = document.querySelector('.container');
 container.append(deck);
 
 deck.addEventListener('click', function(event) {
+
+    if(event.target.className === 'card open show'){
+        return;
+    }
+
     currentCar = event.target.querySelector('.fa');
     currentCar2 = event.target;
     chance++;
+    
     event.target.classList.toggle('open');
     event.target.classList.toggle('show');
     if(chance == 2) {
         if(currentCar.className !== previousCar.className) {
-            setTimeout(function() {
-                currentCar2.classList.remove('open');
-                currentCar2.classList.remove('show');
-
-                previousCar2.classList.remove('open');
-                previousCar2.classList.remove('show');
-            }, 2000);
-        } 
+            currentCar2.classList.remove('open');
+            currentCar2.classList.remove('show');
+            previousCar2.classList.remove('open');
+            previousCar2.classList.remove('show');
+        } else {
+            point++;
+        }
         chance = 0; 
+    }
+    if(point >= pointToWin) {
+        document.getElementById("myDialog").showModal(); 
     } 
     previousCar = event.target.querySelector('.fa');
     previousCar2 = event.target;
-    console.log(previousCar);
 });
 
 
