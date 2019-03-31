@@ -26,6 +26,7 @@ var currentCar = null;
 var chance = 0;
 const pointToWin = 8;
 let point = 0;
+let totalMoves = 0;
 
 var deck = document.createElement('ul');
 deck.classList.add('deck');
@@ -45,12 +46,15 @@ var container = document.querySelector('.container');
 container.append(deck);
 
 deck.addEventListener('click', function(event) {
+    currentCar = event.target.querySelector('.fa');
 
     if(event.target.className === 'card open show'){
+        console.log('same');
         return;
     }
-
-    currentCar = event.target.querySelector('.fa');
+    totalMoves++;
+    document.querySelector('.moves').innerHTML = totalMoves;
+    
     currentCar2 = event.target;
     chance++;
     
