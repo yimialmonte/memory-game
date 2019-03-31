@@ -27,6 +27,9 @@ var chance = 0;
 const pointToWin = 8;
 let point = 0;
 let totalMoves = 0;
+let timer = 0;
+let timerStart = false;
+let interval;
 
 var deck = document.createElement('ul');
 deck.classList.add('deck');
@@ -41,13 +44,24 @@ for(var i =0; i < listOfCards.length; i++){
     deck.appendChild(liElement);
 }
 
+function startTimer () {
+    interval = setInterval(() => document.querySelector('.timer').innerHTML = `${++timer} Seconds`, 1000);
+}
+
+function stopInterval(){
+    clearInterval(interval);
+}
+
 var container = document.querySelector('.container');
 
 container.append(deck);
 
 deck.addEventListener('click', function(event) {
     currentCar = event.target.querySelector('.fa');
-
+    if(timerStart === false){
+        startTimer();
+        timerStart = true;
+    }
     if(event.target.className === 'card open show'){
         console.log('same');
         return;
@@ -73,6 +87,7 @@ deck.addEventListener('click', function(event) {
     }
     if(point >= pointToWin) {
         document.getElementById("myDialog").showModal(); 
+        stopInterval();
     } 
     previousCar = event.target.querySelector('.fa');
     previousCar2 = event.target;
