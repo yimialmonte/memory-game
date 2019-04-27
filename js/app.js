@@ -122,8 +122,7 @@ function getEventTarget(e) {
 
   
 deck.addEventListener('click',function(event) {
-    let target = getEventTarget(event);
-    if(target.tagName === "UL") return;
+    if(getEventTarget(event).tagName === "UL") { return };
 
     currentCar = event.target.querySelector('.fa');
     if(timerStart === false){
@@ -157,7 +156,7 @@ deck.addEventListener('click',function(event) {
 });
 
 const closeCart = async (currentCar2, previousCar2) => {
-    await delay(300);
+    await delay(150);
     currentCar2.classList.remove('open');
     currentCar2.classList.remove('show');
     previousCar2.classList.remove('open');
