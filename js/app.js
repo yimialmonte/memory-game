@@ -110,7 +110,17 @@ function startAgain () {
     reset();
     document.getElementById("myDialog").close();
 }
-deck.addEventListener('click', function(event) {
+
+function getEventTarget(e) {
+    e = e || window.event;
+    return e.target || e.srcElement; 
+}
+
+  
+deck.addEventListener('click',function(event) {
+    let target = getEventTarget(event);
+    if(target.tagName === "UL") return;
+    
     currentCar = event.target.querySelector('.fa');
     if(timerStart === false){
         startTimer();
