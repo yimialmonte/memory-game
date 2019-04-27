@@ -22,7 +22,8 @@ var listOfCards = [
 
 // Variables to use
 
-let cardsShuffle, previousCar, currentCar, chance, point, totalMoves, timer, timerStart, interval, timeStart, startToRemove, deck, container, restart;
+let cardsShuffle, closingCar, previousCar, currentCar, chance, point, totalMoves, timer, timerStart, 
+interval, timeStart, startToRemove, deck, container, restart, starts;
 
 const timeToRemoveStar = 10;
 const pointToWin = 8;
@@ -43,6 +44,8 @@ function init() {
     deck = document.createElement('ul');
     restart = document.querySelector('.restart');
     paintBoard();
+    closingCar = false;
+    createStart();
 }
 
 function reset() {
@@ -71,10 +74,8 @@ function reset() {
     stopInterval();
     document.querySelector('.moves').innerHTML = totalMoves;
     document.querySelector('.timer').innerHTML = `${timer} Seconds`;
-
-
-    document.querySelector('#start-1').style.display = "block";
-    document.querySelector('#start-2').style.display = "block";
+    closingCar = false;
+    createStart();
 }
 
 function paintBoard() {
@@ -91,6 +92,20 @@ function paintBoard() {
     }
     container = document.querySelector('.container');
     container.append(deck);
+}
+
+function createStart() {
+    starts = document.querySelector('.stars');
+    for(var i =1; i <= 3; i++){ 
+        let liElement = document.createElement('li');
+        let iElement = document.createElement('i');
+        iElement.classList.add('fa');
+        iElement.classList.add('fa-star');
+        iElement.setAttribute("id", 'start-' + i);
+        liElement.appendChild(iElement);
+        starts.appendChild(liElement);
+    }
+    
 }
 
 init();
@@ -122,7 +137,7 @@ function getEventTarget(e) {
 
   
 deck.addEventListener('click',function(event) {
-    if(getEventTarget(event).tagName === "UL") { return };
+    if(getEventTarget(event).tagName === "UL" || closingCar) { return };
 
     currentCar = event.target.querySelector('.fa');
     if(timerStart === false){
@@ -156,11 +171,13 @@ deck.addEventListener('click',function(event) {
 });
 
 const closeCart = async (currentCar2, previousCar2) => {
+    closingCar = true;
     await delay(150);
     currentCar2.classList.remove('open');
     currentCar2.classList.remove('show');
     previousCar2.classList.remove('open');
     previousCar2.classList.remove('show');
+    closingCar = false;
 }
 
 function checkIsWin(point) {
@@ -176,10 +193,10 @@ function checkIsWin(point) {
 function removeStart(totalMoves) {
     switch(totalMoves) {
         case 10: 
-            document.querySelector('#start-1').style.display = "none";
+            document.querySelector('#start-1').remove();
             break;
         case 20:
-            document.querySelector('#start-2').style.display = "none";
+            document.querySelector('#start-2').remove();
             break;
         default:
             break
