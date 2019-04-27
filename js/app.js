@@ -108,16 +108,19 @@ deck.addEventListener('click', function(event) {
         }
         chance = 0; 
     }
-    if(point >= pointToWin) {
-        document.getElementById("myDialog").showModal(); 
-        stopInterval();
-    } 
     previousCar = event.target.querySelector('.fa');
     previousCar2 = event.target;
+    checkIsWin(point);
 });
 
 
 
+function checkIsWin(point) {
+    if(point >= pointToWin) {
+        document.getElementById("myDialog").showModal(); 
+        stopInterval();
+    } 
+}
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
