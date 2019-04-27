@@ -20,41 +20,64 @@ var listOfCards = [
     'fa-cube'
 ];
 
-var cardsShuffle = shuffle(listOfCards);
-var previousCar = null;
-var currentCar = null;
-var chance = 0;
+// Variables to use
+
+let cardsShuffle, previousCar, currentCar, chance, point, totalMoves, timer, timerStart, interval, timeStart, startToRemove, deck, container;
+const timeToRemoveStar = 10;
 const pointToWin = 8;
-let point = 0;
-let totalMoves = 0;
-let timer = 0;
-let timerStart = false;
-let interval;
 
-var deck = document.createElement('ul');
-deck.classList.add('deck');
-
-for(var i =0; i < listOfCards.length; i++){
-    var liElement = document.createElement('li');
-    liElement.classList.add('card');
-    var iElement = document.createElement('i');
-    iElement.classList.add('fa');
-    iElement.classList.add(cardsShuffle[i]);
-    liElement.appendChild(iElement);
-    deck.appendChild(liElement);
+function init() {
+    cardsShuffle = shuffle(listOfCards);
+    previousCar = null;
+    currentCar = null;
+    chance = 0;
+    point = 0;
+    totalMoves = 0;
+    timer = 0;
+    timerStart = false;
+    timeStart = 0;
+    startToRemove = 1;
+    deck = document.createElement('ul');
+    paintBoard();
 }
 
+function paintBoard() {
+    deck.classList.add('deck');
+    for(var i =0; i < listOfCards.length; i++){
+        var liElement = document.createElement('li');
+        liElement.classList.add('card');
+        var iElement = document.createElement('i');
+        iElement.classList.add('fa');
+        iElement.classList.add(cardsShuffle[i]);
+        liElement.appendChild(iElement);
+        deck.appendChild(liElement);
+    }
+    container = document.querySelector('.container');
+    container.append(deck);
+}
+
+init();
+
 function startTimer () {
-    interval = setInterval(() => document.querySelector('.timer').innerHTML = `${++timer} Seconds`, 1000);
+    interval = setInterval(function() {
+        document.querySelector('.timer').innerHTML = `${++timer} Seconds`;
+        rating();
+    } , 1000);
 }
 
 function stopInterval(){
     clearInterval(interval);
 }
 
-var container = document.querySelector('.container');
+function rating () {
+    if(timeStart === timeToRemoveStar & startToRemove <= 5) {
+        document.getElementById('start-' + startToRemove).style.display = 'none';
+        timeStart = 0;
+        startToRemove++
+    }
+}
 
-container.append(deck);
+
 
 deck.addEventListener('click', function(event) {
     currentCar = event.target.querySelector('.fa');
@@ -62,13 +85,13 @@ deck.addEventListener('click', function(event) {
         startTimer();
         timerStart = true;
     }
+    
     if(event.target.className === 'card open show'){
-        console.log('same');
         return;
     }
     totalMoves++;
+    timeStart++;
     document.querySelector('.moves').innerHTML = totalMoves;
-    
     currentCar2 = event.target;
     chance++;
     
@@ -92,6 +115,7 @@ deck.addEventListener('click', function(event) {
     previousCar = event.target.querySelector('.fa');
     previousCar2 = event.target;
 });
+
 
 
 /*
