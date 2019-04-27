@@ -94,7 +94,6 @@ init();
 function startTimer () {
     interval = setInterval(function() {
         document.querySelector('.timer').innerHTML = `${++timer} Seconds`;
-        rating();
     } , 1000);
 }
 
@@ -102,19 +101,15 @@ function stopInterval(){
     clearInterval(interval);
 }
 
-function rating () {
-    if(timeStart === timeToRemoveStar & startToRemove <= 5) {
-        document.getElementById('start-' + startToRemove).style.display = 'none';
-        timeStart = 0;
-        startToRemove++
-    }
-}
 
 restart.addEventListener('click', function(event) {
     reset();
 });
 
-
+function startAgain () {
+    reset();
+    document.getElementById("myDialog").close();
+}
 deck.addEventListener('click', function(event) {
     currentCar = event.target.querySelector('.fa');
     if(timerStart === false){
@@ -157,7 +152,10 @@ const closeCart = async (currentCar2, previousCar2) => {
 
 function checkIsWin(point) {
     if(point >= pointToWin) {
-        document.getElementById("myDialog").showModal(); 
+        document.getElementById("myDialog").showModal();
+        document.querySelector('.time-to-win').innerHTML = `Total Times: ${timer}`;
+        let totalStarts = [...document.querySelectorAll('.fa-star')];
+        document.querySelector('.total-starts').innerHTML = `Total Starts ${totalStarts.length}`;
         stopInterval();
     } 
 }
