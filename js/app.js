@@ -22,7 +22,8 @@ var listOfCards = [
 
 // Variables to use
 
-let cardsShuffle, previousCar, currentCar, chance, point, totalMoves, timer, timerStart, interval, timeStart, startToRemove, deck, container;
+let cardsShuffle, previousCar, currentCar, chance, point, totalMoves, timer, timerStart, interval, timeStart, startToRemove, deck, container, restart;
+
 const timeToRemoveStar = 10;
 const pointToWin = 8;
 const delay = ms => new Promise(res => setTimeout(res, ms));
@@ -30,6 +31,7 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 function init() {
     cardsShuffle = shuffle(listOfCards);
     previousCar = null;
+    openCarts = [];
     currentCar = null;
     chance = 0;
     point = 0;
@@ -39,7 +41,36 @@ function init() {
     timeStart = 0;
     startToRemove = 1;
     deck = document.createElement('ul');
+    restart = document.querySelector('.restart');
     paintBoard();
+}
+
+function reset() {
+    let carts = [...document.getElementsByClassName('card')];
+    carts.forEach(element => {
+        element.classList.remove('open');
+        element.classList.remove('show');
+    });
+    
+    cardsShuffle = shuffle(listOfCards);
+    for(var i =0; i < listOfCards.length; i++){
+        let element = document.getElementById('item-' + i);
+        element.className = '';
+        element.classList.add('fa');
+        element.classList.add(cardsShuffle[i]);
+    }
+    previousCar = null;
+    currentCar = null;
+    chance = 0;
+    point = 0;
+    totalMoves = 0;
+    timer = 0;
+    timerStart = false;
+    timeStart = 0;
+    startToRemove = 1;
+    stopInterval();
+    document.querySelector('.moves').innerHTML = totalMoves;
+    document.querySelector('.timer').innerHTML = `${timer} Seconds`;
 }
 
 function paintBoard() {
@@ -50,6 +81,7 @@ function paintBoard() {
         var iElement = document.createElement('i');
         iElement.classList.add('fa');
         iElement.classList.add(cardsShuffle[i]);
+        iElement.setAttribute("id", 'item-' + i);
         liElement.appendChild(iElement);
         deck.appendChild(liElement);
     }
@@ -78,6 +110,11 @@ function rating () {
     }
 }
 
+restart.addEventListener('click', function(event) {
+    reset();
+});
+
+
 deck.addEventListener('click', function(event) {
     currentCar = event.target.querySelector('.fa');
     if(timerStart === false){
@@ -89,6 +126,7 @@ deck.addEventListener('click', function(event) {
         return;
     }
     totalMoves++;
+    removeStart(totalMoves);
     timeStart++;
     document.querySelector('.moves').innerHTML = totalMoves;
     currentCar2 = event.target;
@@ -110,7 +148,7 @@ deck.addEventListener('click', function(event) {
 });
 
 const closeCart = async (currentCar2, previousCar2) => {
-    await delay(1000);
+    await delay(300);
     currentCar2.classList.remove('open');
     currentCar2.classList.remove('show');
     previousCar2.classList.remove('open');
@@ -123,6 +161,20 @@ function checkIsWin(point) {
         stopInterval();
     } 
 }
+
+function removeStart(totalMoves) {
+    switch(totalMoves) {
+        case 10: 
+            document.querySelector('#start-1').remove();
+            break;
+        case 20:
+            document.querySelector('#start-3').remove();
+            break;
+        default:
+            break
+    }
+}
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
