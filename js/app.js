@@ -25,6 +25,7 @@ var listOfCards = [
 let cardsShuffle, previousCar, currentCar, chance, point, totalMoves, timer, timerStart, interval, timeStart, startToRemove, deck, container;
 const timeToRemoveStar = 10;
 const pointToWin = 8;
+const delay = ms => new Promise(res => setTimeout(res, ms));
 
 function init() {
     cardsShuffle = shuffle(listOfCards);
@@ -77,8 +78,6 @@ function rating () {
     }
 }
 
-
-
 deck.addEventListener('click', function(event) {
     currentCar = event.target.querySelector('.fa');
     if(timerStart === false){
@@ -99,10 +98,7 @@ deck.addEventListener('click', function(event) {
     event.target.classList.toggle('show');
     if(chance == 2) {
         if(currentCar.className !== previousCar.className) {
-            currentCar2.classList.remove('open');
-            currentCar2.classList.remove('show');
-            previousCar2.classList.remove('open');
-            previousCar2.classList.remove('show');
+            closeCart(currentCar2, previousCar2);
         } else {
             point++;
         }
@@ -113,7 +109,13 @@ deck.addEventListener('click', function(event) {
     checkIsWin(point);
 });
 
-
+const closeCart = async (currentCar2, previousCar2) => {
+    await delay(1000);
+    currentCar2.classList.remove('open');
+    currentCar2.classList.remove('show');
+    previousCar2.classList.remove('open');
+    previousCar2.classList.remove('show');
+}
 
 function checkIsWin(point) {
     if(point >= pointToWin) {
