@@ -71,6 +71,10 @@ function reset() {
     stopInterval();
     document.querySelector('.moves').innerHTML = totalMoves;
     document.querySelector('.timer').innerHTML = `${timer} Seconds`;
+
+
+    document.querySelector('#start-1').style.display = "block";
+    document.querySelector('#start-2').style.display = "block";
 }
 
 function paintBoard() {
@@ -120,7 +124,7 @@ function getEventTarget(e) {
 deck.addEventListener('click',function(event) {
     let target = getEventTarget(event);
     if(target.tagName === "UL") return;
-    
+
     currentCar = event.target.querySelector('.fa');
     if(timerStart === false){
         startTimer();
@@ -173,10 +177,10 @@ function checkIsWin(point) {
 function removeStart(totalMoves) {
     switch(totalMoves) {
         case 10: 
-            document.querySelector('#start-1').remove();
+            document.querySelector('#start-1').style.display = "none";
             break;
         case 20:
-            document.querySelector('#start-3').remove();
+            document.querySelector('#start-2').style.display = "none";
             break;
         default:
             break
