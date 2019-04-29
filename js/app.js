@@ -75,6 +75,7 @@ function reset() {
     document.querySelector('.moves').innerHTML = totalMoves;
     document.querySelector('.timer').innerHTML = `${timer} Seconds`;
     closingCar = false;
+    removeStarts();
     createStart();
 }
 
@@ -93,6 +94,19 @@ function paintBoard() {
     container = document.querySelector('.container');
     container.append(deck);
 }
+
+function removeStarts() {
+    if(document.contains(document.querySelector('#start-1'))) {
+        document.querySelector('#start-1').remove();
+    }
+    if(document.contains(document.querySelector('#start-2'))) {
+        document.querySelector('#start-2').remove();
+    }
+    if(document.contains(document.querySelector('#start-3'))) {
+        document.querySelector('#start-3').remove();
+    }
+}
+
 
 function createStart() {
     starts = document.querySelector('.stars');
@@ -140,6 +154,13 @@ deck.addEventListener('click',function(event) {
     if(getEventTarget(event).tagName === "UL" || closingCar) { return };
 
     currentCar = event.target.querySelector('.fa');
+    if(currentCar == null) return;
+
+    let currentParent = currentCar.parentNode || null;
+    if(currentParent.classList.contains('open')) {
+        return;
+    }
+    
     if(timerStart === false){
         startTimer();
         timerStart = true;
