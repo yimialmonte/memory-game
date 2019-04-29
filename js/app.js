@@ -1,24 +1,11 @@
 /*
  * Create a list that holds all of your cards
  */
-var listOfCards = [
-    'fa-diamond',
-    'fa-diamond',
-    'fa-paper-plane-o',
-    'fa-paper-plane-o',
-    'fa-anchor',
-    'fa-anchor',
-    'fa-bolt',
-    'fa-cube',
-    'fa-leaf',
-    'fa-bicycle',
-    'fa-bomb',
-    'fa-leaf',
-    'fa-bomb',
-    'fa-bolt',
-    'fa-bicycle',
-    'fa-cube'
-];
+let symbols = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"];
+
+let listOfCards = symbols.concat(symbols);
+
+listOfCards =[...symbols, ...symbols];
 
 // Variables to use
 
@@ -30,6 +17,7 @@ const pointToWin = 8;
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
 function init() {
+   
     cardsShuffle = shuffle(listOfCards);
     previousCar = null;
     openCarts = [];
