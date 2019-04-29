@@ -25,3 +25,4 @@ These instructions will get you a copy of the project up and running on your loc
 * [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) - CSS
 * [HTML](https://www.w3.org/html/) - HTML
 * [JAVASCRIPT](https://developer.mozilla.org/en-US/docs/Web/JavaScript) - JS
+* [Font-awesome](https://fontawesome.com/) - Font-awesome
